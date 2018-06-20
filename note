@@ -1,0 +1,120 @@
+import pdb
+import json
+import requests
+import numpy as np
+import pandas as pd
+from fbprophet import Prophet
+
+
+if __name__ == '__main__':
+    response = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&outputsize=full&apikey=demo').json()
+    df = pd.read_json(json.dumps(response['Time Series (Daily)']))
+    print("-----------Stock market price of MSFT on daily basis-------------------")
+    print(df)
+    sales_df = df.iloc[3].to_frame().reset_index()
+    #sales_df.sort_index(by=['index'], ascending=[True])
+    sales_df = sales_df.sort_values(by='index')
+    sales_df.to_csv('training_data.csv', index=False)
+    print(sales_df, sales_df.columns,sales_df.index)
+    sales_df = sales_df.rename(columns={'index': 'ds', '4. close': 'y'})
+    model = Prophet() #instantiate Prophet
+    model.fit(sales_df); #fit the model with your dataframe
+    future_dates = model.make_future_dataframe(periods=10, freq = 'd')
+    forecast_data = model.predict(future_dates).rename(columns={'ds': 'Date', 'yhat': 'Closing Price'})
+    print("-----------Prediction of stock price on daily basis-------------------")
+    print(forecast_data[['Date', 'Closing Price']].tail())
+
+
+--------------------------------------------------------------------------------------------------------------------
+import numpy as np
+import pandas as pd
+from fbprophet import Prophet
+
+
+if __name__ == '__main__':
+    sales_df = pd.read_csv('training_data.csv')
+    print("-----------Stock market price of MSFT on daily basis-------------------")
+    print(sales_df)
+    print(sales_df, sales_df.columns,sales_df.index)
+    sales_df = sales_df.rename(columns={'index': 'ds', 'close': 'y'})
+    model = Prophet(changepoint_range=1) #instantiate Prophet
+    model.fit(sales_df); #fit the model with your dataframe
+    future_dates = model.make_future_dataframe(periods=5, freq = 'd')
+    forecast_data = model.predict(future_dates).rename(columns={'ds': 'Date', 'yhat': 'Closing Price'})
+    print("-----------Prediction of stock price on daily basis-------------------")
+    print(forecast_data[['Date', 'Closing Price']].tail())
+--------------------------------------------------------------------------------------------------------------------
+https://machinelearningmastery.com/arima-for-time-series-forecasting-with-python/
+
+----------------------------------------------------------------------------------------------------------------------
+import pdb
+import numpy as np
+import pandas as pd
+from statsmodels.tsa.arima_model import ARIMA
+from sklearn.metrics import mean_squared_error
+
+
+if __name__ == '__main__':
+    series = pd.read_csv('small_training_data.csv',header=0, parse_dates=[0], index_col=0, squeeze=True)
+    print("-----------Stock market price of MSFT on daily basis-------------------")
+    print(series)
+    X = series.values
+    size = int(len(X) * 0.66)
+    train, test = X[0:size], X[size:len(X)]
+    history = [x for x in train]
+    predictions = list()
+    for t in range(len(test)):
+        model = ARIMA(history, order=(5, 1, 0))
+        model_fit = model.fit(disp=0)
+        output = model_fit.forecast()
+        yhat = output[0]
+        predictions.append(yhat)
+        obs = test[t]
+        history.append(obs)
+        print('predicted=%f, expected=%f' % (yhat, obs))
+    error = mean_squared_error(test, predictions)
+    print('Test MSE: %.3f' % error)
+----------------------------------------------------------------------------------------------------------------------
+
+1. Assuming we have a large number of files and databases, discuss how you have used Python to build a reference data catalog/dictionary for further processing? 2. Once you have generated the data catalog, discuss how we can use python to automate the discovery of features in the data? 3. Once we have created features, discuss how we can use python to determine the types of analytic model supported by the data? 4. After we build the model, discuss how we can use python to validate the model and determine the best model for the business problem under consideration? 5. After we have determined the best model, discuss how we can use python to deliver insights to business users? 6. Discuss your experience in deploying analytic models built in Python, either as a web service or an API? 7. Do you have any experience with building learning and reasoning applications in Python? If you do, what libraries did you use? If you have a GIT repository with sample code that you have created, let's work through illustration of the answer to the questions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
