@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block body %}
+        <div class="box-header">
+		  {% if msg %}
+			<ul class="messages">
+				<li class="alert alert-success">{{ msg }}</li>
+			</ul>
+		  {% endif %}
+		</div>
+		<div class="wrap-contact100">
+				{% csrf_token %}
+				<span class="contact100-form-title">
+					Prediction
+				</span>
+
+				<div class="wrap-input100 validate-input" data-validate = "Message is required">
+					<span class="label-input100">No Of Days </span>
+					<input type="text" name="days_count" class="input100" id="days_count">
+
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<button class="contact100-form-btn" id="go_btn">
+							Go
+						</button>
+					</div>
+				</div>
+
+			<canvas id="myChart" width="400" height="400" style="padding-top: 3em;"></canvas>
+		</div>
+
+{% endblock %}
+{% block static %}
+<script>
+$( document ).ready(function() {
+    $('#go_btn').click(function(){
+      $.ajax({
+		'type':'POST',
+		'url': {% url 'prediction' %},
+		'data': {
+		  'days_count' : $('#days_count').val(),
+		  'csrfmiddlewaretoken': '{{ csrf_token }}',
+		},
+		'dataType': 'json',
+		success: function (resp) {
+				var ctx = document.getElementById("myChart").getContext('2d');
+				 var myChart = new Chart(ctx, {
+				 type: 'bar',
+				 data: {
+					labels: resp['Date'],
+					datasets: [{
+						label: '# Closing Rate',
+						data: resp['Close'],
+						backgroundColor: 'rgba(255, 99, 132, 0.2)',
+						borderColor: 'rgba(255,99,132,1)',
+						borderWidth: 1
+					}]
+				},
+			});// end of chartjs
+		  }// end of success
+		}); // end of ajax
+    }); // end of click
+});// end of document
+</script>
+{% endblock %}

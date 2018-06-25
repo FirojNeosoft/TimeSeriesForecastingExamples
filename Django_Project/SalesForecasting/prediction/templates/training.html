@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block body %}
+        <div class="box-header">
+		  {% if msg %}
+			<ul class="messages">
+				<li class="alert alert-success">{{ msg }}</li>
+			</ul>
+		  {% endif %}
+		</div>
+		<div class="wrap-contact100">
+			<form class="contact100-form validate-form" enctype="multipart/form-data" method="post" action="{% url 'training_model' %}">
+				{% csrf_token %}
+				<span class="contact100-form-title">
+					Training
+				</span>
+
+				<div class="wrap-input100 validate-input" data-validate = "Message is required">
+					<span class="label-input100">File </span>
+					<input type="file" name="dataset_file">
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<button class="contact100-form-btn">
+							Submit
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+{% endblock %}

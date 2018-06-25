@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load i18n %}
+{% load static %}
+<head>
+	<title>Forecasting</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static 'prediction/images/icons/favicon.ico' %}" />
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'prediction/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'prediction/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'prediction/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'prediction/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'prediction/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'prediction/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'prediction/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'prediction/css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
+	<a class="btn btn-link" href="{% url 'training_model' %}">Train Model</a>
+	<a class="btn btn-link" href="{% url 'prediction' %}">Prediction</a>
+<div class="container-contact100" style="background-image: url('{% static 'prediction/images/bg-01.jpg' %}');">
+
+  {% block body%}
+  {% endblock %}
+</div>
+<!--===============================================================================================-->
+	<script src="{% static 'prediction/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'prediction/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'prediction/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'prediction/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'prediction/js/main.js' %}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-23581568-13');
+</script>
+{% block static %}
+{% endblock %}
+</body>
+</html>
+
